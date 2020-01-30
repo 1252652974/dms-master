@@ -3,20 +3,8 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">学生公寓管理系统</h3>
+        <h3 class="title">高校宿舍管理系统</h3>
       </div>
-
-      <el-form-item>
-        <el-select v-model="loginForm.role">
-          <el-option
-            v-for="item in roleList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -24,8 +12,8 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
+          placeholder="手机号码"
+          name="phone"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -42,8 +30,8 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="Password"
-            name="password"
+            placeholder="密码"
+            name="pwd"
             tabindex="2"
             autocomplete="on"
             @keyup.native="checkCapslock"
@@ -56,27 +44,38 @@
         </el-form-item>
       </el-tooltip>
 
+      <el-form-item>
+        <el-select v-model="loginForm.role" name="role" style="width: 100%">
+          <el-option
+            v-for="item in roleList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
+import { validPhone } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+    const validatePhone = (rule, value, callback) => {
+      if (!value || value.length === 0 || !validPhone(value)) {
+        callback(new Error('请正确输入手机号码'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 4) {
+        callback(new Error('输入密码不能少于4位'))
       } else {
         callback()
       }
@@ -95,7 +94,7 @@ export default {
         label: '超级管理员'
       }],
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        username: [{ required: true, trigger: 'blur', validator: validatePhone }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
