@@ -7,10 +7,10 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
+/* import componentsRouter from './modules/components'
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+import nestedRouter from './modules/nested'*/
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -78,11 +78,11 @@ export const constantRoutes = [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        name: 'dashboard',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
-  },
+  }/* ,
   {
     path: '/documentation',
     component: Layout,
@@ -121,7 +121,7 @@ export const constantRoutes = [
         meta: { title: 'Profile', icon: 'user', noCache: true }
       }
     ]
-  }
+  }*/
 ]
 
 /**
@@ -129,7 +129,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
+  /* {
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
@@ -169,9 +169,135 @@ export const asyncRoutes = [
         }
       }
     ]
-  },
-
+  },*/
   {
+    path: '/edit-information',
+    component: Layout,
+    redirect: '/edit-information/hygiene',
+    alwaysShow: true, // will always show the root menu
+    name: '录入信息',
+    meta: {
+      title: '录入信息',
+      icon: 'edit',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'hygiene',
+        component: () => import('@/views/edit-information/hygiene'),
+        name: 'edit-hygiene',
+        meta: {
+          title: '编辑卫生评分'
+        }
+      },
+      {
+        path: 'water-consumption',
+        component: () => import('@/views/edit-information/water-consumption'),
+        name: 'edit-water',
+        meta: {
+          title: '编辑水费信息'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'electricity-consumption',
+        component: () => import('@/views/edit-information/electricity-consumption'),
+        name: 'edit-electricity',
+        meta: {
+          title: '编辑电费信息'
+        }
+      }
+    ]
+  },
+  {
+    path: '/equipment-maintenance',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/equipment-maintenance/index'),
+        name: '维修报备',
+        meta: { title: '维修报备',
+          icon: 'documentation',
+          affix: true,
+          roles: ['admin', 'editor'] // you can set roles in root nav
+        }
+      }
+    ]
+  },
+  {
+    path: '/interflow',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/interflow/index'),
+        name: '学生反馈',
+        meta: { title: '维修报备',
+          icon: 'documentation',
+          affix: true,
+          roles: ['admin', 'editor'] // you can set roles in root nav
+        }
+      }
+    ]
+  },
+  {
+    path: '/statistics-information',
+    component: Layout,
+    redirect: '/statistics-information/hygiene',
+    alwaysShow: true, // will always show the root menu
+    name: '统计信息',
+    meta: {
+      title: '统计信息',
+      icon: 'chart',
+      roles: ['admin', 'editor'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'hygiene',
+        component: () => import('@/views/statistics-information/hygiene'),
+        name: 'statistics-hygiene',
+        meta: {
+          title: '统计卫生评分',
+          roles: ['admin', 'editor'] // you can set roles in root nav
+        }
+      },
+      {
+        path: 'water-consumption',
+        component: () => import('@/views/statistics-information/water-consumption'),
+        name: 'statistics-water',
+        meta: {
+          title: '统计水费信息'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'electricity-consumption',
+        component: () => import('@/views/statistics-information/electricity-consumption'),
+        name: 'statistics-electricity',
+        meta: {
+          title: '统计电费信息'
+        }
+      }
+    ]
+  },
+  {
+    path: '/system-management',
+    component: Layout,
+    children: [
+      {
+        path: 'sys-user',
+        component: () => import('@/views/system-management/sys-user'),
+        name: '系统用户管理',
+        meta: { title: '系统用户管理',
+          icon: 'peoples',
+          affix: true,
+          roles: ['admin'] // you can set roles in root nav
+        }
+      }
+    ]
+  },
+  /* {
     path: '/icon',
     component: Layout,
     children: [
@@ -184,7 +310,7 @@ export const asyncRoutes = [
     ]
   },
 
-  /** when your routing map is too long, you can split it into small modules **/
+  /!** when your routing map is too long, you can split it into small modules **!/
   componentsRouter,
   chartsRouter,
   nestedRouter,
@@ -381,7 +507,7 @@ export const asyncRoutes = [
         meta: { title: 'External Link', icon: 'link' }
       }
     ]
-  },
+  },*/
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
